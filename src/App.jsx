@@ -1,5 +1,15 @@
+import Header from './components/Header';
+import Promo from './components/Promo';
+import Form from './components/Form';
+
 function App() {
-  return <h1 className='text-cyan-600'>Hello React</h1>;
+  return (
+    <div>
+      <Header />
+      <Promo />
+      <Form />
+    </div>
+  );
 }
 
 export default App;
