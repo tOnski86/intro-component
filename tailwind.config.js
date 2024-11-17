@@ -14,9 +14,10 @@ export default {
     colors: {
       red: 'hsl(0, 100%, 74%)',
       green: 'hsl(154, 59%, 51%)',
-      blue: 'hsl(248, 32%, 49%)',
+      violet: 'hsl(248, 32%, 49%)',
       grey: 'hsl(249, 10%, 26%)',
-      white: 'hsl(246, 25%, 77%)',
+      pale: 'hsl(246, 25%, 77%)',
+      white: '#fff',
     },
   },
   plugins: [],
