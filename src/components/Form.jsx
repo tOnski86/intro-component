@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from './Button';
 import Error from './Error';
@@ -16,35 +16,36 @@ function Form() {
     password: '',
   });
   const [errors, setErrors] = useState({});
-  const [submit, setSubmit] = useState(false); // use submit for success message
+  const [submit, setSubmit] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   function handleValidate(input) {
     const errors = {};
 
     if (input.first === '') {
       errors.first = 'First name cannot be empty';
-    }
-    if (input.last === '') {
-      errors.last = 'Last name cannot be empty';
-    }
-    if (input.email === '') {
-      errors.email = 'Email cannot be empty';
-    }
-    if (input.password === '') {
-      errors.password = 'Password cannot be empty';
-    }
-    if (!VALID_NAME(input.first)) {
+    } else if (!VALID_NAME(input.first)) {
       errors.first = 'Invalid first name';
     }
-    if (!VALID_NAME(input.last)) {
+
+    if (input.last === '') {
+      errors.last = 'Last name cannot be empty';
+    } else if (!VALID_NAME(input.last)) {
       errors.last = 'Invalid last name';
     }
-    if (!VALID_EMAIL(input.email)) {
+
+    if (input.email === '') {
+      errors.email = 'Email cannot be empty';
+    } else if (!VALID_EMAIL(input.email)) {
       errors.email = 'Looks like this is not an email';
     }
-    if (input.password.length < 8) {
+
+    if (input.password === '') {
+      errors.password = 'Password cannot be empty';
+    } else if (input.password.length < 8) {
       errors.password = 'Password is too short. Minimum 8 characters.';
     }
+
     return errors;
   }
 
@@ -58,12 +59,35 @@ function Form() {
     setSubmit(true);
   }
 
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && submit) {
+      setSuccess(true);
+      setInput({
+        first: '',
+        last: '',
+        email: '',
+        password: '',
+      });
+    }
+  }, [errors, submit]);
+
   return (
     <div className='text-center '>
       <div className='mb-6 '>
-        <Button className='bg-violet text-white w-full focus:ring-2 focus:ring-violet/50 outline-none'>
-          <span className='font-medium'>Try it free 7 days</span> then $20/mo.
-          thereafter
+        <Button
+          disabled
+          className='bg-violet text-white w-full outline-none cursor-default'
+        >
+          {success ? (
+            <p className='animate-slideLeft'>
+              You have successfully claimed your free trial!
+            </p>
+          ) : (
+            <p>
+              <span className='font-medium'>Try it free 7 days</span> then
+              $20/mo. thereafter
+            </p>
+          )}
         </Button>
       </div>
 
@@ -75,6 +99,7 @@ function Form() {
           {/* first name */}
           <div className='relative'>
             <input
+              disabled={success}
               placeholder='First Name'
               autoFocus={true}
               type='text'
@@ -85,7 +110,7 @@ function Form() {
                 !errors.first
                   ? 'focus:outline-violet/80 '
                   : 'focus:outline-red/80 border-red/80 border-2'
-              }`}
+              } ${success ? 'bg-grey/30 placeholder:text-grey/20' : ''}`}
             />
             {errors.first && (
               <img
@@ -102,6 +127,7 @@ function Form() {
         <div>
           <div className='relative'>
             <input
+              disabled={success}
               placeholder='Last Name'
               type='text'
               name='last'
@@ -111,7 +137,7 @@ function Form() {
                 !errors.last
                   ? 'focus:outline-violet/80 '
                   : 'focus:outline-red/80 border-red/80 border-2'
-              }`}
+              } ${success ? 'bg-grey/30 placeholder:text-grey/20' : ''}`}
             />
             {errors.last && (
               <img
@@ -128,6 +154,7 @@ function Form() {
         <div>
           <div className='relative'>
             <input
+              disabled={success}
               placeholder='Email Address'
               type='text'
               name='email'
@@ -137,7 +164,7 @@ function Form() {
                 !errors.email
                   ? 'focus:outline-violet/80 '
                   : 'focus:outline-red/80 border-red/80 border-2'
-              }`}
+              } ${success ? 'bg-grey/30 placeholder:text-grey/20' : ''}`}
             />
             {errors.email && (
               <img
@@ -154,6 +181,7 @@ function Form() {
         <div>
           <div className='relative'>
             <input
+              disabled={success}
               placeholder='Password'
               type='password'
               name='password'
@@ -163,7 +191,7 @@ function Form() {
                 !errors.password
                   ? 'focus:outline-violet/80 '
                   : 'focus:outline-red/80 border-red/80 border-2'
-              }`}
+              } ${success ? 'bg-grey/30 placeholder:text-grey/20' : ''}`}
             />
             {errors.password && (
               <img
@@ -175,7 +203,12 @@ function Form() {
           </div>
           {errors.password && <Error message={errors.password} />}
         </div>
-        <Button className='bg-green text-white uppercase focus:ring focus:ring-green/50 outline-none'>
+        <Button
+          disabled={success}
+          className={`bg-green text-white uppercase focus:ring focus:ring-green/50 outline-none ${
+            success ? 'cursor-not-allowed' : ''
+          }`}
+        >
           Claim your free trial
         </Button>
 

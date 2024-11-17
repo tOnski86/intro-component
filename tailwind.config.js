@@ -7,6 +7,16 @@ export default {
         mobile: "url('/bg-intro-mobile.png')",
         desktop: "url('/bg-intro-desktop.png')",
       },
+      keyframes: {
+        slideLeft: {
+          '0%': { transform: 'translateX(20px)', opacity: '0' },
+          '80%': { transform: 'translateX(-5px)' },
+          '100%': { transform: 'translateX(0px)', opacity: '1' },
+        },
+      },
+      animation: {
+        slideLeft: 'slideLeft 1s ease-in-out',
+      },
     },
     fontFamily: {
       poppins: ['Poppins', 'sans-serif'],
