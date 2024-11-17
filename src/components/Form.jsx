@@ -12,7 +12,7 @@ function Form() {
 
       <form
         action='#'
-        className='bg-white rounded-lg p-6 grid grid-cols-1 gap-4 '
+        className='bg-white rounded-lg p-6 grid grid-cols-1 gap-4 relative after:absolute after:h-full after:w-full after:bg-grey/30 after:top-1.5 after:left-0 after:-z-50 after:rounded-lg'
       >
         <input
           type='text'
